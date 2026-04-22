@@ -1,0 +1,26 @@
+name: Release Webman Feature
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "webman-net-tools-v*"
+
+permissions:
+  contents: write
+  packages: write
+  pull-requests: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Publish devcontainer feature
+        uses: devcontainers/action@v1
+        with:
+          publish-features: "true"
+          base-path-to-features: "./src"
+          devcontainer-cli-version: "0.65.0"

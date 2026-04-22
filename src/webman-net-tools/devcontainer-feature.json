@@ -1,0 +1,9 @@
+{
+  "name": "Webman + Network Tools",
+  "id": "webman-net-tools",
+  "version": "1.0.0",
+  "description": "Install PHP runtime, Composer, Webman skeleton tooling, and common network utilities.",
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}
