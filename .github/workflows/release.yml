@@ -7,9 +7,8 @@ on:
       - "webman-net-tools-v*"
 
 permissions:
-  contents: write
+  contents: read
   packages: write
-  pull-requests: write
 
 jobs:
   publish:
@@ -27,11 +26,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install devcontainer CLI
+        run: npm install -g @devcontainers/cli@0.86.0
+
       - name: Publish devcontainer feature
-        uses: devcontainers/action@v1.4.3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          publish-features: "true"
-          base-path-to-features: "./src"
-          devcontainer-cli-version: "0.65.0"
+        run: |
+          devcontainer --version
+          devcontainer features publish -r ghcr.io -n "${{ github.repository }}" ./src
