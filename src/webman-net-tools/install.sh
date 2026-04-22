@@ -29,11 +29,15 @@ fi
 INSTALL_WEBMAN="${INSTALLWEBMAN:-true}"
 WEBMAN_PATH="${WEBMANPATH:-/opt/webman}"
 
+echo "webman-net-tools: installWebman=${INSTALL_WEBMAN} webmanPath=${WEBMAN_PATH}"
+
 if [ "${INSTALL_WEBMAN}" = "true" ]; then
   mkdir -p "${WEBMAN_PATH}"
   if [ ! -f "${WEBMAN_PATH}/composer.json" ]; then
     composer create-project workerman/webman "${WEBMAN_PATH}" --no-interaction --no-progress
   fi
+else
+  echo "webman-net-tools: skipping Webman skeleton installation; existing directories are left untouched"
 fi
 
 cat >/usr/local/bin/webman-tools-check <<'EOF'

@@ -76,6 +76,11 @@ To skip the Webman skeleton entirely:
 }
 ```
 
+`installWebman: false` only skips creating a new Webman skeleton during the feature install.
+It does not delete an existing `/opt/webman` directory left behind by an earlier image build or container rebuild.
+
+If you previously installed Webman into `/opt/webman`, remove that directory manually or rebuild the dev container without cache when validating the new behavior.
+
 ## What it installs
 
 - PHP runtime
