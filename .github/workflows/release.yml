@@ -27,6 +27,8 @@ jobs:
 
       - name: Publish devcontainer feature
         uses: devcontainers/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           publish-features: "true"
           base-path-to-features: "./src"
