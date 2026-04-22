@@ -3,6 +3,18 @@
   "id": "webman-net-tools",
   "version": "1.0.0",
   "description": "Install PHP runtime, Composer, Webman skeleton tooling, and common network utilities.",
+  "options": {
+    "installWebman": {
+      "type": "boolean",
+      "default": true,
+      "description": "Install the Webman starter project into the target path"
+    },
+    "webmanPath": {
+      "type": "string",
+      "default": "/opt/webman",
+      "description": "Target directory for the Webman starter project"
+    }
+  },
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils"
   ]

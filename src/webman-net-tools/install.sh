@@ -26,9 +26,14 @@ if ! command -v composer >/dev/null 2>&1; then
   rm -f /tmp/composer-setup.php
 fi
 
-mkdir -p /opt/webman
-if [ ! -f /opt/webman/composer.json ]; then
-  composer create-project workerman/webman /opt/webman --no-interaction --no-progress
+INSTALL_WEBMAN="${INSTALLWEBMAN:-true}"
+WEBMAN_PATH="${WEBMANPATH:-/opt/webman}"
+
+if [ "${INSTALL_WEBMAN}" = "true" ]; then
+  mkdir -p "${WEBMAN_PATH}"
+  if [ ! -f "${WEBMAN_PATH}/composer.json" ]; then
+    composer create-project workerman/webman "${WEBMAN_PATH}" --no-interaction --no-progress
+  fi
 fi
 
 cat >/usr/local/bin/webman-tools-check <<'EOF'
