@@ -1,16 +1,16 @@
-# Webman Dev Container Features
+# Webman Dev Container 功能
 
-This repository is a standalone Dev Container Feature repo for `webman-net-tools`.
+本仓库是一个独立的 Dev Container Feature 仓库，用于 `webman-net-tools`。
 
-## Feature
+## 功能
 
-- Source: `src/webman-net-tools`
-- Published package name: `webman-net-tools`
-- Example GHCR reference after release: `ghcr.io/<your-github-user-or-org>/<your-feature-repo>/webman-net-tools:1`
+- 源代码位置：`src/webman-net-tools`
+- 发布包名称：`webman-net-tools`
+- 发布后 GHCR 引用示例：`ghcr.io/<your-github-user-or-org>/<your-feature-repo>/webman-net-tools:1`
 
-## Usage
+## 使用方法
 
-Add the published feature to your `devcontainer.json`:
+将发布后的 feature 添加到你的 `devcontainer.json`：
 
 ```json
 {
@@ -20,7 +20,7 @@ Add the published feature to your `devcontainer.json`:
 }
 ```
 
-You can also pin the full version tag:
+你也可以指定完整版本标签：
 
 ```json
 {
@@ -30,7 +30,7 @@ You can also pin the full version tag:
 }
 ```
 
-You can also use the rolling `latest` tag:
+你还可以使用滚动的 `latest` 标签：
 
 ```json
 {
@@ -40,18 +40,18 @@ You can also use the rolling `latest` tag:
 }
 ```
 
-`latest` is valid because the publish step also pushes a `latest` tag. Use it when you want the newest released version automatically.
+`latest` 是有效的，因为发布步骤也会推送 `latest` 标签。如果你希望自动获取最新发布版本，可以使用它。
 
-For stable environments, prefer `:1` or an exact version like `:1.0.0` to avoid unexpected changes after future releases.
+对于稳定环境，建议使用 `:1` 或精确版本号如 `:1.0.0`，以避免未来发布后的意外变更。
 
-## Custom Parameters
+## 自定义参数
 
-This feature supports two options:
+该 feature 支持两个选项：
 
-- `installWebman`: `true` or `false`, defaults to `true`
-- `webmanPath`: target directory for the starter project, defaults to `/opt/webman`
+- `installWebman`：`true` 或 `false`，默认值为 `true`
+- `webmanPath`：启动项目的目标目录，默认值为 `/opt/webman`
 
-Example:
+示例：
 
 ```json
 {
@@ -64,7 +64,7 @@ Example:
 }
 ```
 
-To skip the Webman skeleton entirely:
+如果要完全跳过 Webman 模板：
 
 ```json
 {
@@ -76,25 +76,25 @@ To skip the Webman skeleton entirely:
 }
 ```
 
-`installWebman: false` only skips creating a new Webman skeleton during the feature install.
-It does not delete an existing `/opt/webman` directory left behind by an earlier image build or container rebuild.
+`installWebman: false` 仅会在 feature 安装时跳过创建新的 Webman 模板。
+它不会删除之前镜像构建或容器重建后遗留的已有 `/opt/webman` 目录。
 
-If you previously installed Webman into `/opt/webman`, remove that directory manually or rebuild the dev container without cache when validating the new behavior.
+如果你之前已将 Webman 安装到 `/opt/webman`，请手动删除该目录，或在验证新行为时无缓存重建 dev container。
 
-## What it installs
+## 安装内容
 
-- PHP runtime
+- PHP 运行时
 - Composer
-- Webman starter project under `/opt/webman`
-- Network tools: `curl`, `wget`, `ping`, `traceroute`, `dig`, `net-tools`, `iproute2`
+- `/opt/webman` 下的 Webman 启动项目
+- 网络工具：`curl`、`wget`、`ping`、`traceroute`、`dig`、`net-tools`、`iproute2`
 
-## Publish
+## 发布
 
-This repository is designed to publish from GitHub Actions.
-Use the workflow in `.github/workflows/release.yml`.
+本仓库设计为通过 GitHub Actions 发布。
+使用 `.github/workflows/release.yml` 中的工作流进行发布。
 
-## Discoverability
+## 可发现性
 
-Custom features published to GHCR are usually referenced directly by OCI address. They may not appear in feature search UIs just because they exist in GHCR.
+发布到 GHCR 的自定义 feature 通常通过 OCI 地址直接引用。它们可能不会因为存在于 GHCR 而出现在 feature 搜索界面中。
 
-If you want others to access the feature, make sure the GHCR package visibility is set to public.
+如果你希望其他人访问该 feature，请确保 GHCR 包的可见性设置为公开。
