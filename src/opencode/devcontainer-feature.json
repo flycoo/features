@@ -1,0 +1,16 @@
+{
+  "name": "OpenCode CLI",
+  "id": "opencode",
+  "version": "1.0.0",
+  "description": "Install OpenCode - an AI-powered development tool for software engineering tasks",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "OpenCode version to install (e.g. 'latest', '1.0.180', or 'v1.0.180')"
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ]
+}

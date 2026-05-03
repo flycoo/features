@@ -1,4 +1,4 @@
-name: Release Webman Feature
+name: Release DevContainer Features
 
 on:
   workflow_dispatch:
@@ -6,6 +6,7 @@ on:
     tags:
       - "v*"
       - "webman-net-tools-v*"
+      - "opencode-v*"
 
 permissions:
   contents: read
