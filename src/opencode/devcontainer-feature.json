@@ -1,7 +1,7 @@
 {
   "name": "OpenCode CLI",
   "id": "opencode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Install OpenCode - an AI-powered development tool for software engineering tasks",
   "options": {
     "version": {
@@ -9,6 +9,19 @@
       "default": "latest",
       "description": "OpenCode version to install (e.g. 'latest', '1.0.180', or 'v1.0.180')"
     }
+  },
+  "mounts": [
+    {
+      "source": "opencode-data",
+      "target": "/usr/local/share/opencode-data",
+      "type": "volume"
+    }
+  ],
+  "containerEnv": {
+    "XDG_DATA_HOME": "/usr/local/share/opencode-data/data",
+    "XDG_CONFIG_HOME": "/usr/local/share/opencode-data/config",
+    "XDG_CACHE_HOME": "/usr/local/share/opencode-data/cache",
+    "XDG_STATE_HOME": "/usr/local/share/opencode-data/state"
   },
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils"

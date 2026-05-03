@@ -67,7 +67,11 @@ chmod 755 /usr/local/bin/opencode
 echo "OpenCode installed successfully:"
 opencode --version
 
-# Ensure PATH includes /usr/local/bin in common shell configs for interactive use
+# Set up persistent data directories on the named volume
+OP_BASE="/usr/local/share/opencode-data"
+mkdir -p "$OP_BASE/data" "$OP_BASE/config" "$OP_BASE/cache" "$OP_BASE/state"
+
+# Ensure PATH includes /usr/local/bin in common shell configs
 INSTALL_BIN="/usr/local/bin"
 for rc in /etc/bash.bashrc /etc/zsh/zshrc /etc/skel/.bashrc /etc/profile.d/opencode.sh; do
     dir=$(dirname "$rc")
