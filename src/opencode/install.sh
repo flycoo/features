@@ -9,6 +9,8 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     tar
+apt-get clean
+rm -rf /var/lib/apt/lists/*
 
 arch=$(uname -m)
 case "$arch" in
@@ -47,9 +49,9 @@ else
     VERSION="${VERSION#v}"
     download_url="https://github.com/anomalyco/opencode/releases/download/v${VERSION}/${APP}-${target}.tar.gz"
 
-    http_status=$(curl -sI -o /dev/null -w "%{http_code}" "https://github.com/anomalyco/opencode/releases/tag/v${VERSION}")
-    if [ "$http_status" = "404" ]; then
-        echo "Error: OpenCode release v${VERSION} not found"
+    http_status=$(curl -sIL -o /dev/null -w "%{http_code}" "$download_url")
+    if [ "$http_status" != "200" ]; then
+        echo "Error: OpenCode asset not found for version v${VERSION} / target ${target} (HTTP ${http_status})"
         exit 1
     fi
 fi
@@ -71,13 +73,4 @@ opencode --version
 OP_BASE="/usr/local/share/opencode-data"
 mkdir -p "$OP_BASE/data" "$OP_BASE/config" "$OP_BASE/cache" "$OP_BASE/state"
 
-# Ensure PATH includes /usr/local/bin in common shell configs
-INSTALL_BIN="/usr/local/bin"
-for rc in /etc/bash.bashrc /etc/zsh/zshrc /etc/skel/.bashrc /etc/profile.d/opencode.sh; do
-    dir=$(dirname "$rc")
-    [ -d "$dir" ] || continue
-    if [ -f "$rc" ] && grep -q "$INSTALL_BIN" "$rc" 2>/dev/null; then
-        continue
-    fi
-    echo 'export PATH="/usr/local/bin:$PATH"' >> "$rc" 2>/dev/null || true
-done
+
