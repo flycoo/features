@@ -1,7 +1,7 @@
 {
   "name": "OpenCode CLI",
   "id": "opencode",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Install OpenCode - an AI-powered development tool for software engineering tasks",
   "options": {
     "version": {
