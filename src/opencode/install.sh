@@ -89,19 +89,30 @@ echo "OpenCode installed successfully:"
 opencode --version
 
 # ---------------------------------------------------------------------------
-# Ensure XDG / persistent data directories exist
-# OP_BASE can be set via .env file or falls back to the default
-# matching the named volume mount target in devcontainer-feature.json
+# Ensure persistent data directories exist
+# "opencode-base" option is required for data persistence
 # ---------------------------------------------------------------------------
-env_file="$(dirname "$(readlink -f "$0")")/.env"
-[ -f "$env_file" ] && . "$env_file"
-
-OP_BASE="${OP_BASE:-/usr/local/share/opencode-data}"
+OPENCODE_BASE="${OPENCODE_BASE:-}"
+if [ -z "$OPENCODE_BASE" ]; then
+    echo "ERROR: 'opencode-base' option is required for data persistence." >&2
+    echo "       Set it in devcontainer.json, e.g.:" >&2
+    echo '       "features": { "ghcr.io/flycoo/features/opencode": { "opencode-base": "/usr/local/share/opencode-data" } }' >&2
+    exit 1
+fi
 mkdir -p \
-    "${XDG_DATA_HOME:-$OP_BASE/data}" \
-    "${XDG_CONFIG_HOME:-$OP_BASE/config}" \
-    "${XDG_CACHE_HOME:-$OP_BASE/cache}" \
-    "${XDG_STATE_HOME:-$OP_BASE/state}"
+    "${OPENCODE_BASE}/data" \
+    "${OPENCODE_BASE}/config" \
+    "${OPENCODE_BASE}/cache" \
+    "${OPENCODE_BASE}/state"
+
+# Write env setup script so opencode finds XDG paths at runtime
+cat > /etc/profile.d/opencode-env.sh << EOF
+export XDG_DATA_HOME="${OPENCODE_BASE}/data"
+export XDG_CONFIG_HOME="${OPENCODE_BASE}/config"
+export XDG_CACHE_HOME="${OPENCODE_BASE}/cache"
+export XDG_STATE_HOME="${OPENCODE_BASE}/state"
+EOF
+chmod 644 /etc/profile.d/opencode-env.sh
 
 # ---------------------------------------------------------------------------
 # Persist ~/.agents/skills to /data/qiu (survives devcontainer rebuilds)
