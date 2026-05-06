@@ -105,17 +105,8 @@ mkdir -p \
     "${OPENCODE_BASE}/cache" \
     "${OPENCODE_BASE}/state"
 
-# Ensure opencode finds persistent paths in all scenarios:
-#   1) XDG_*_HOME env vars (login shells via profile.d)
-#   2) Symlinks from default XDG dirs (fallback for non-XDG-aware contexts)
-cat > /etc/profile.d/opencode-env.sh << EOF
-export XDG_DATA_HOME="${OPENCODE_BASE}/data"
-export XDG_CONFIG_HOME="${OPENCODE_BASE}/config"
-export XDG_CACHE_HOME="${OPENCODE_BASE}/cache"
-export XDG_STATE_HOME="${OPENCODE_BASE}/state"
-EOF
-chmod 644 /etc/profile.d/opencode-env.sh
-
+# Create symlinks from default XDG paths to persistent storage
+# opencode uses $XDG_*_HOME/opencode, redirected here to OPENCODE_BASE
 mkdir -p "$HOME/.config" "$HOME/.local/share" "$HOME/.cache" "$HOME/.local/state"
 ln -sfn "${OPENCODE_BASE}/config" "$HOME/.config/opencode"
 ln -sfn "${OPENCODE_BASE}/data"   "$HOME/.local/share/opencode"
