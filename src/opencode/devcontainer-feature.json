@@ -1,7 +1,7 @@
 {
   "name": "OpenCode CLI",
   "id": "opencode",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Install OpenCode - an AI-powered development tool for software engineering tasks",
   "options": {
     "version": {
@@ -23,5 +23,6 @@
   ],
   "installsAfter": [
     "ghcr.io/devcontainers/features/common-utils"
-  ]
+  ],
+  "postCreateCommand": "bash /usr/local/share/opencode-feature/postCreate.sh"
 }

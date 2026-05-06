@@ -105,31 +105,12 @@ mkdir -p \
     "${OPENCODE_BASE}/cache" \
     "${OPENCODE_BASE}/state"
 
-# Create symlinks from default XDG paths to persistent storage
-# opencode uses $XDG_*_HOME/opencode, redirected here to OPENCODE_BASE
-mkdir -p "$HOME/.config" "$HOME/.local/share" "$HOME/.cache" "$HOME/.local/state"
-ln -sfn "${OPENCODE_BASE}/config" "$HOME/.config/opencode"
-ln -sfn "${OPENCODE_BASE}/data"   "$HOME/.local/share/opencode"
-ln -sfn "${OPENCODE_BASE}/cache"  "$HOME/.cache/opencode"
-ln -sfn "${OPENCODE_BASE}/state"  "$HOME/.local/state/opencode"
+# Save OPENCODE_BASE for the postCreate phase (runs as real container user)
+mkdir -p /usr/local/share/opencode-feature
+echo "OPENCODE_BASE=${OPENCODE_BASE}" > /usr/local/share/opencode-feature/env
 
-# ---------------------------------------------------------------------------
-# Persist ~/.agents/skills to /data/qiu (survives devcontainer rebuilds)
-# ---------------------------------------------------------------------------
-AGENTS_SKILLS_SRC="$HOME/.agents/skills"
-AGENTS_SKILLS_DST="/data/qiu/.agents/skills"
-
-if [ -d "/data/qiu" ]; then
-    mkdir -p "$AGENTS_SKILLS_DST"
-
-    if [ -d "$AGENTS_SKILLS_SRC" ] && [ ! -L "$AGENTS_SKILLS_SRC" ]; then
-        cp -rn "$AGENTS_SKILLS_SRC"/* "$AGENTS_SKILLS_DST"/ 2>/dev/null || true
-        rm -rf "$AGENTS_SKILLS_SRC"
-    fi
-
-    if [ ! -e "$AGENTS_SKILLS_SRC" ]; then
-        ln -sfn "$AGENTS_SKILLS_DST" "$AGENTS_SKILLS_SRC"
-    fi
-fi
+# Copy postCreate script to a fixed system path
+cp "$(dirname "$0")/postCreate.sh" /usr/local/share/opencode-feature/postCreate.sh
+chmod 755 /usr/local/share/opencode-feature/postCreate.sh
 
 
