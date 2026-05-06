@@ -100,4 +100,21 @@ mkdir -p \
     "${XDG_CACHE_HOME:-$OP_BASE/cache}" \
     "${XDG_STATE_HOME:-$OP_BASE/state}"
 
+# ---------------------------------------------------------------------------
+# Persist ~/.agents/skills to /data/qiu (survives devcontainer rebuilds)
+# ---------------------------------------------------------------------------
+AGENTS_SKILLS_SRC="$HOME/.agents/skills"
+AGENTS_SKILLS_DST="/data/qiu/.agents/skills"
 
+if [ -d "/data/qiu" ]; then
+    mkdir -p "$AGENTS_SKILLS_DST"
+
+    if [ -d "$AGENTS_SKILLS_SRC" ] && [ ! -L "$AGENTS_SKILLS_SRC" ]; then
+        cp -rn "$AGENTS_SKILLS_SRC"/* "$AGENTS_SKILLS_DST"/ 2>/dev/null || true
+        rm -rf "$AGENTS_SKILLS_SRC"
+    fi
+
+    if [ ! -e "$AGENTS_SKILLS_SRC" ]; then
+        ln -sfn "$AGENTS_SKILLS_DST" "$AGENTS_SKILLS_SRC"
+    fi
+fi
