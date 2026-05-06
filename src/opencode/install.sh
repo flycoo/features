@@ -130,6 +130,6 @@ if [ -d "/data/qiu" ]; then
     if [ ! -e "$AGENTS_SKILLS_SRC" ]; then
         ln -sfn "$AGENTS_SKILLS_DST" "$AGENTS_SKILLS_SRC"
     fi
-fi"
+fi
 
 
