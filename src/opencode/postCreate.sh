@@ -17,7 +17,7 @@ fi
 # ---------------------------------------------------------------------------
 mkdir -p "$HOME/.config" "$HOME/.local/share" "$HOME/.cache" "$HOME/.local/state"
 ln -sfn "${OPENCODE_BASE}/config" "$HOME/.config/opencode"
-ln -sfn "${OPENCODE_BASE}/data"   "$HOME/.local/share/opencode"
+ln -sfn "${OPENCODE_BASE}/share"  "$HOME/.local/share/opencode"
 ln -sfn "${OPENCODE_BASE}/cache"  "$HOME/.cache/opencode"
 ln -sfn "${OPENCODE_BASE}/state"  "$HOME/.local/state/opencode"
 
