@@ -1,0 +1,17 @@
+{
+  "name": "MCP Database Server",
+  "id": "mcp-db",
+  "version": "0.2.0",
+  "description": "Install MCP DB Server - a Model Context Protocol server for MySQL 8.0+ database operations",
+  "options": {
+    "db-config": {
+      "type": "string",
+      "default": "",
+      "description": "Path to db_config.json inside the container (required). E.g. /workspaces/myproject/db_config.json"
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ],
+  "postCreateCommand": "bash /usr/local/share/mcp-db-feature/postCreate.sh"
+}

@@ -7,6 +7,7 @@ on:
       - "v*"
       - "webman-net-tools-v*"
       - "opencode-v*"
+      - "mcp-db-v*"
 
 permissions:
   contents: read
