@@ -45,6 +45,8 @@ cp -r "$MODULE_SRC"/* "$MODULE_DST/"
 
 # Remove any stray config file that may have been included; config is user-provided
 rm -f "$MODULE_DST/db_config.json"
+# Allow container user (postCreate runs non-root) to write db_config.json here
+chmod 777 "$MODULE_DST"
 
 echo "MCP DB Server installed to $MODULE_DST"
 
