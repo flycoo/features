@@ -57,3 +57,33 @@ else
 EOL
     chmod 600 "$DST"
 fi
+
+# ---------------------------------------------------------------------------
+# Register mcp-db in .vscode/mcp.json (workspace root)
+# ---------------------------------------------------------------------------
+WORKSPACE_DIR="$(pwd)"
+VSCODE_DIR="$WORKSPACE_DIR/.vscode"
+MCP_JSON="$VSCODE_DIR/mcp.json"
+
+mkdir -p "$VSCODE_DIR"
+
+python3 - "$MCP_JSON" << 'PYEOF'
+import sys, json, os
+
+path = sys.argv[1]
+entry = {"command": "mcp-db"}
+
+if os.path.exists(path):
+    with open(path) as f:
+        data = json.load(f)
+else:
+    data = {"servers": {}}
+
+data.setdefault("servers", {})["mcp-db"] = entry
+
+with open(path, "w") as f:
+    json.dump(data, f, indent=4)
+    f.write("\n")
+
+print(f"mcp-db: registered in {path}")
+PYEOF
