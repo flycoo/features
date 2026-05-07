@@ -11,6 +11,8 @@
     },
     "opencode-base": {
       "type": "string",
+      "default": "",
+      "enum": [""],
       "description": "Base directory for opencode persistent data (data/config/cache/state). Required for data persistence."
     }
   },
