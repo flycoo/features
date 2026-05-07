@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DB_CONFIG="${DBCONFIG:-}"
+DB_CONFIG="${DB_CONFIG:-}"
 
 # ---------------------------------------------------------------------------
 # Package installation – supports apt / apk / dnf / yum
