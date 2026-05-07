@@ -51,6 +51,16 @@ chmod 777 "$MODULE_DST"
 echo "MCP DB Server installed to $MODULE_DST"
 
 # ---------------------------------------------------------------------------
+# Create executable entry point
+# ---------------------------------------------------------------------------
+cat > /usr/local/bin/mcp-db << EOF
+#!/bin/sh
+exec python3 "$MODULE_DST/db.py" "\$@"
+EOF
+chmod 755 /usr/local/bin/mcp-db
+echo "mcp-db command installed to /usr/local/bin/mcp-db"
+
+# ---------------------------------------------------------------------------
 # Save options for postCreate phase (runs as real container user)
 # ---------------------------------------------------------------------------
 FEATURE_DIR="/usr/local/share/mcp-db-feature"
