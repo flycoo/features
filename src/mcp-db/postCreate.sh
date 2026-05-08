@@ -87,3 +87,30 @@ with open(path, "w") as f:
 
 print(f"mcp-db: registered in {path}")
 PYEOF
+
+# ---------------------------------------------------------------------------
+# Ensure ~/.local/bin/mcp-db symlink (tools may hardcode this path)
+# ---------------------------------------------------------------------------
+SRC="/usr/local/bin/mcp-db"
+LOCAL_BIN="$HOME/.local/bin"
+DST="$LOCAL_BIN/mcp-db"
+
+if [ ! -f "$SRC" ]; then
+    echo "WARNING: $SRC not found – skipping ~/.local/bin symlink" >&2
+else
+    mkdir -p "$LOCAL_BIN"
+
+    # If target already exists and is the correct symlink, nothing to do
+    if [ -e "$DST" ] || [ -L "$DST" ]; then
+        if [ -L "$DST" ] && [ "$(readlink "$DST")" = "$SRC" ]; then
+            echo "mcp-db: ~/.local/bin symlink already correct"
+        else
+            echo "ERROR: $DST already exists but is not a symlink to $SRC." >&2
+            echo "       Remove it manually and re-run postCreate." >&2
+            exit 1
+        fi
+    else
+        ln -sf "$SRC" "$DST"
+        echo "mcp-db: symlink created $DST -> $SRC"
+    fi
+fi
