@@ -8,6 +8,7 @@ on:
       - "webman-net-tools-v*"
       - "opencode-v*"
       - "mcp-db-v*"
+      - "claude-code-v*"
 
 permissions:
   contents: read

@@ -1,0 +1,31 @@
+{
+  "name": "Claude Code CLI",
+  "id": "claude-code",
+  "version": "1.0.0",
+  "description": "Install Claude Code - Anthropic's AI-powered coding assistant CLI for software engineering tasks",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "Claude Code version to install (e.g. 'latest', '1.0.0', or a specific npm tag)"
+    },
+    "claude-base": {
+      "type": "string",
+      "default": "",
+      "enum": [""],
+      "description": "Base directory for Claude Code persistent data (config/settings/projects). Required for data persistence."
+    }
+  },
+  "mounts": [
+    {
+      "source": "claude-code-data",
+      "target": "/usr/local/share/claude-code-data",
+      "type": "volume"
+    }
+  ],
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/node"
+  ],
+  "postCreateCommand": "bash /usr/local/share/claude-code-feature/postCreate.sh"
+}
