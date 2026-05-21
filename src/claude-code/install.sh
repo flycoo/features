@@ -66,10 +66,7 @@ if [ -z "$CLAUDE_BASE" ]; then
     echo '       "features": { "ghcr.io/flycoo/features/claude-code": { "claude-base": "/usr/local/share/claude-code-data" } }' >&2
     exit 1
 fi
-mkdir -p \
-    "${CLAUDE_BASE}/config" \
-    "${CLAUDE_BASE}/projects" \
-    "${CLAUDE_BASE}/memory"
+mkdir -p "${CLAUDE_BASE}"
 
 # Save CLAUDE_BASE for the postCreate phase (runs as real container user)
 mkdir -p /usr/local/share/claude-code-feature

@@ -15,7 +15,7 @@ fi
 # Symlink ~/.claude → persistent CLAUDE_BASE
 # ---------------------------------------------------------------------------
 rm -rf "$HOME/.claude"
-ln -sfn "${CLAUDE_BASE}/config" "$HOME/.claude"
+ln -sfn "${CLAUDE_BASE}" "$HOME/.claude"
 
 # ---------------------------------------------------------------------------
 # Persist ~/.agents/skills → /data/qiu/.agents/skills (survives rebuilds)
