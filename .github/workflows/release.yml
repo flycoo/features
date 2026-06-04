@@ -9,6 +9,7 @@ on:
       - "opencode-v*"
       - "mcp-db-v*"
       - "claude-code-v*"
+      - "codex-v*"
 
 permissions:
   contents: read

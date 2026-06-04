@@ -9,6 +9,47 @@
 | `webman-net-tools` | `src/webman-net-tools` | 安装 PHP 运行时、Composer、Webman 骨架和常用网络工具 |
 | `opencode` | `src/opencode` | 安装 OpenCode CLI - AI 驱动的开发工具 |
 | `claude-code` | `src/claude-code` | 安装 Claude Code CLI - Anthropic 的 AI 编码助手 |
+| `codex` | `src/codex` | 安装 OpenAI Codex CLI，并持久化 Codex 会话历史和 memory 到 `/data/qiu/.codex` |
+
+---
+
+## codex
+
+安装 OpenAI Codex CLI，并把 `~/.codex` 持久化到 `/data/qiu/.codex`。
+
+### 使用方法
+
+```json
+{
+    "features": {
+        "ghcr.io/flycoo/features/codex:1": {}
+    }
+}
+```
+
+### 自定义参数
+
+| 参数 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `version` | string | `latest` | 要安装的 Codex 版本 |
+| `codex-base` | string | `/data/qiu/.codex` | Codex 持久化数据目录 |
+
+```json
+{
+    "features": {
+        "ghcr.io/flycoo/features/codex:latest": {
+            "version": "latest",
+            "codex-base": "/data/qiu/.codex"
+        }
+    }
+}
+```
+
+### 安装内容
+
+- Codex CLI 通过 npm 全局安装
+- 依赖：`ca-certificates`、`node`（需要 `ghcr.io/devcontainers/features/node`）
+- 持久化目录：`/data/qiu/.codex`，包含 Codex 的会话历史、memory 和配置
 
 ---
 

@@ -1,0 +1,23 @@
+{
+  "name": "Codex CLI",
+  "id": "codex",
+  "version": "1.0.0",
+  "description": "Install OpenAI Codex CLI and persist Codex data under /data/qiu/.codex",
+  "options": {
+    "version": {
+      "type": "string",
+      "default": "latest",
+      "description": "Codex version to install (e.g. latest, 0.1.0, or a specific npm tag)"
+    },
+    "codex-base": {
+      "type": "string",
+      "default": "/data/qiu/.codex",
+      "description": "Directory for Codex persistent data (sessions, memories, config)."
+    }
+  },
+  "installsAfter": [
+    "ghcr.io/devcontainers/features/common-utils",
+    "ghcr.io/devcontainers/features/node"
+  ],
+  "postCreateCommand": "bash /usr/local/share/codex-feature/postCreate.sh"
+}
