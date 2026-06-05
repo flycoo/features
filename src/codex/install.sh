@@ -29,16 +29,17 @@ install_deps() {
     if command -v apt-get >/dev/null 2>&1; then
         apt-get update
         DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-            ca-certificates
+            ca-certificates \
+            bubblewrap
         apt-get clean
         rm -rf /var/lib/apt/lists/*
     elif command -v apk >/dev/null 2>&1; then
-        apk add --no-cache ca-certificates
+        apk add --no-cache ca-certificates bubblewrap
     elif command -v dnf >/dev/null 2>&1; then
-        dnf install -y ca-certificates
+        dnf install -y ca-certificates bubblewrap
         dnf clean all
     elif command -v yum >/dev/null 2>&1; then
-        yum install -y ca-certificates
+        yum install -y ca-certificates bubblewrap
         yum clean all
     else
         echo "ERROR: No supported package manager found (apt/apk/dnf/yum)" >&2
@@ -46,7 +47,25 @@ install_deps() {
     fi
 }
 
+warn_if_bwrap_unavailable() {
+    if ! command -v bwrap >/dev/null 2>&1; then
+        echo "WARNING: bubblewrap was installed but bwrap is still not available on PATH." >&2
+        return
+    fi
+
+    if [ -r /proc/sys/kernel/unprivileged_userns_clone ] &&
+        [ "$(cat /proc/sys/kernel/unprivileged_userns_clone)" != "1" ]; then
+        echo "WARNING: unprivileged user namespaces are disabled; Codex sandboxing may fail." >&2
+    fi
+
+    if [ -r /proc/sys/user/max_user_namespaces ] &&
+        [ "$(cat /proc/sys/user/max_user_namespaces)" = "0" ]; then
+        echo "WARNING: user namespaces are unavailable; Codex sandboxing may fail." >&2
+    fi
+}
+
 install_deps
+warn_if_bwrap_unavailable
 install_proxy_profile
 
 if ! command -v node >/dev/null 2>&1; then
@@ -63,8 +82,17 @@ else
     npm_pkg="@openai/codex@${VERSION}"
 fi
 
+# Ensure nvm group exists and qiu is in it, so g+w permission works for user updates
+groupadd -f nvm 2>/dev/null || true
+usermod -aG nvm qiu 2>/dev/null || true
+chgrp -R nvm "$(npm config get prefix)/lib/node_modules" 2>/dev/null || true
+# Ensure node_modules has SGID so new dirs inherit nvm group
+chmod g+s "$(npm config get prefix)/lib/node_modules" 2>/dev/null || true
+
 echo "Installing Codex (${VERSION})..."
+umask 0002
 npm install -g "${npm_pkg}"
+chmod -Rf g+w "$(npm config get prefix)/lib/node_modules" 2>/dev/null || true
 
 echo "Codex installed successfully:"
 codex --version 2>/dev/null || echo "ok"
