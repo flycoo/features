@@ -50,8 +50,16 @@ else
     npm_pkg="@anthropic-ai/claude-code@${VERSION}"
 fi
 
+# Ensure nvm group exists and qiu is in it, so g+w permission works for user updates
+groupadd -f nvm 2>/dev/null || true
+usermod -aG nvm qiu 2>/dev/null || true
+chgrp -R nvm "$(npm config get prefix)/lib/node_modules" 2>/dev/null || true
+chmod g+s "$(npm config get prefix)/lib/node_modules" 2>/dev/null || true
+
 echo "Installing Claude Code (${VERSION})..."
+umask 0002
 npm install -g "${npm_pkg}"
+chmod -Rf g+w "$(npm config get prefix)/lib/node_modules" 2>/dev/null || true
 
 echo "Claude Code installed successfully:"
 claude --version 2>/dev/null || claude --help 2>&1 | head -1 || echo "ok"

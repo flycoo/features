@@ -1,7 +1,7 @@
 {
   "name": "Claude Code CLI",
   "id": "claude-code",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Install Claude Code - Anthropic's AI-powered coding assistant CLI for software engineering tasks",
   "options": {
     "version": {
