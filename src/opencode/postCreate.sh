@@ -16,6 +16,7 @@ fi
 # opencode uses $XDG_*_HOME/opencode; redirect to OPENCODE_BASE
 # ---------------------------------------------------------------------------
 mkdir -p "$HOME/.config" "$HOME/.local/share" "$HOME/.cache" "$HOME/.local/state"
+mkdir -p "${OPENCODE_BASE}/config" "${OPENCODE_BASE}/share" "${OPENCODE_BASE}/cache" "${OPENCODE_BASE}/state"
 rm -rf "$HOME/.config/opencode"
 ln -sfn "${OPENCODE_BASE}/config" "$HOME/.config/opencode"
 rm -rf "$HOME/.local/share/opencode"
