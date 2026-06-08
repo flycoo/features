@@ -103,8 +103,8 @@ if [ -z "$OPENCODE_BASE" ]; then
     exit 1
 fi
 mkdir -p \
-    "${OPENCODE_BASE}/data" \
     "${OPENCODE_BASE}/config" \
+    "${OPENCODE_BASE}/share" \
     "${OPENCODE_BASE}/cache" \
     "${OPENCODE_BASE}/state"
 
