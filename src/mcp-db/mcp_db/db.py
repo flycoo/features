@@ -26,8 +26,8 @@ server = FastMCP(
     # description=f"MySQL Database Server v{__version__}"
 )
 
-# Database configuration file path
-CONFIG_FILE = Path(__file__).parent / "db_config.json"
+# Database configuration file path – can be overridden via MCP_DB_CONFIG env var
+CONFIG_FILE = Path(os.getenv("MCP_DB_CONFIG", Path(__file__).parent / "db_config.json"))
 
 def load_db_config() -> Dict[str, Any]:
     """Load database configuration from local file and environment variables."""
@@ -52,10 +52,10 @@ def load_db_config() -> Dict[str, Any]:
     with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
         config = json.load(f)
     
-    # Override with environment variables if they exist
-    for env_name in ['default', 'production', 'development']:
+    # Override with environment variables if they exist – iterate all config keys
+    for env_name in list(config.keys()):
         env_prefix = f"DB_{env_name.upper()}_"
-        
+
         # Check if any environment variables exist for this environment
         env_vars = {}
         for key in ['host', 'port', 'user', 'password', 'database', 'charset']:
@@ -68,11 +68,9 @@ def load_db_config() -> Dict[str, Any]:
                     env_vars[key] = env_value.lower() in ['true', '1', 'yes']
                 else:
                     env_vars[key] = env_value
-        
+
         # Override configuration with environment variables
         if env_vars:
-            if env_name not in config:
-                config[env_name] = {}
             config[env_name].update(env_vars)
     
     return config

@@ -1,7 +1,7 @@
 {
   "name": "MCP Database Server",
   "id": "mcp-db",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "description": "Install MCP DB Server - a Model Context Protocol server for MySQL 8.0+ database operations",
   "options": {
     "db-config": {

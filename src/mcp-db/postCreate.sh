@@ -16,9 +16,9 @@ DST="${MODULE_DST}/db_config.json"
 # ---------------------------------------------------------------------------
 if [ -n "${DB_CONFIG:-}" ]; then
     if [ -f "$DB_CONFIG" ]; then
-        cp "$DB_CONFIG" "$DST"
-        chmod 600 "$DST"
-        echo "mcp-db: db_config.json copied from $DB_CONFIG"
+        rm -f "$DST"
+        ln -sf "$(realpath "$DB_CONFIG")" "$DST"
+        echo "mcp-db: db_config.json symlinked to $DB_CONFIG"
     else
         echo "WARNING: db-config path '$DB_CONFIG' does not exist. Creating template db_config.json." >&2
         cat > "$DST" << 'EOL'
